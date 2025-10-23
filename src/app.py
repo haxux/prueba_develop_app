@@ -67,13 +67,11 @@ def agregar_producto():
     try:
         cursor = conexion.connection.cursor()
         
-        # 🔹 Si es GET → mostrar el formulario
         if request.method == 'GET':
             cursor.execute("SELECT id_categoria, nombre FROM categoria")
             categorias = cursor.fetchall()
             return render_template('agregar_producto.html', categorias=categorias)
         
-        # 🔹 Si es POST → procesar el formulario
         nombre = request.form['nombre']
         descripcion = request.form['descripcion']
         precio = request.form['precio']
@@ -97,14 +95,12 @@ def editar_categoria(id_producto):
         cursor = conexion.connection.cursor()
 
         if request.method == 'GET':
-            # Obtener producto actual y todas las categorías
             cursor.execute("SELECT id_producto, nombre, id_categoria FROM producto WHERE id_producto = %s", (id_producto,))
             producto = cursor.fetchone()
             cursor.execute("SELECT id_categoria, nombre FROM categoria")
             categorias = cursor.fetchall()
             return render_template('editar_categoria.html', producto=producto, categorias=categorias)
         
-        # Si es POST, actualizar la categoría
         nueva_categoria = request.form['id_categoria']
         cursor.execute("UPDATE producto SET id_categoria = %s WHERE id_producto = %s", (nueva_categoria, id_producto))
         conexion.connection.commit()
@@ -126,13 +122,11 @@ def categorias():
         traceback.print_exc()
         return "Error al cargar categorías"
 
-# 🔹 Ver productos por categoría
 @app.route('/categoria/<int:id_categoria>')
 def ver_categoria(id_categoria):
     try:
         cursor = conexion.connection.cursor()
 
-        # 1️⃣ Obtener nombre de la categoría
         sql = "SELECT nombre FROM categoria WHERE id_categoria = %s"
         categoria = cursor.execute(sql,(id_categoria,))
         datos = cursor.fetchall()
@@ -141,7 +135,6 @@ def ver_categoria(id_categoria):
         if not datos:
             return f"No se encontró la categoría con ID {id_categoria}"
         else:
-        # 2️⃣ Obtener productos de esa categoría (ahora incluye nombre de categoría)
   
             sql = "SELECT p.id_producto, p.nombre, p.descripcion, c.nombre AS categoria, p.precio_unitario, p.iva FROM producto p INNER JOIN categoria c ON p.id_categoria = c.id_categoria WHERE p.id_categoria = %s"
             cursor.execute(sql, (id_categoria,))
@@ -155,14 +148,6 @@ def ver_categoria(id_categoria):
                 
                 return {"productos": datos }     
 
-        # 3️⃣ Renderizar la plantilla
-        #return render_template('categoria_detalle.html', categoria=categoria[0], productos=productos)
-
-        #return {
-        #"id_producto": id_producto,
-        #"nombreProdunombre_productocto": nombre_producto
-        
-    #}
 
     except Exception as ex:
         import traceback
