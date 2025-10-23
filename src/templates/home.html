@@ -2,29 +2,115 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Panel principal</title>
+    <title>Panel Principal</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f5f5f5; text-align: center; margin-top: 80px; }
-        h2 { color: #333; }
-        .menu a {
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            padding-top: 40px;
+        }
+        h2 {
+            color: #333;
+            font-size: 26px;
+        }
+        .menu {
+            margin-top: 20px;
+        }
+        a {
             display: inline-block;
-            margin: 10px;
+            margin: 5px;
             padding: 10px 20px;
             background-color: #007bff;
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 6px;
+            transition: background-color 0.2s;
         }
-        .menu a:hover { background-color: #0056b3; }
+        a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos de la sección de ofertas */
+        .ofertas {
+            margin-top: 40px;
+            background-color: #fff;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        th {
+            background-color: #ffe5e5;
+            color: #333;
+        }
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        .precio-final {
+            color: #d9534f;
+            font-weight: bold;
+        }
+        footer {
+            margin-top: 60px;
+            font-size: 14px;
+            color: #666;
+        }
     </style>
 </head>
 <body>
-    <h2>Bienvenido al sistema de compras 🛍️</h2>
+
+    <h2>Bienvenido al Sistema de Compras 🛍️</h2>
+    <p>Selecciona una opción para continuar:</p>
+
     <div class="menu">
-        <a href="#">Productos</a>
-        <a href="#">Categorías</a>
-        <a href="#">Carrito / Comprar</a>
-        <a href="/">Cerrar sesión</a>
+        <a href="{{ url_for('productos') }}">🛒 Productos</a>
+        <a href="{{ url_for('categorias') }}">🏷️ Categorías</a>
+        <a href="{{ url_for('compras') }}">💳 Carrito / Comprar</a>
+        <a href="{{ url_for('index') }}">🚪 Cerrar sesión</a>
     </div>
+
+    <!-- 🔥 Sección de Ofertas en Home -->
+    <div class="ofertas">
+        <h3>🔥 Productos en Oferta 🔥</h3>
+
+        {% if ofertas %}
+        <table>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio Original</th>
+                <th>Descuento (%)</th>
+                <th>Precio Final</th>
+            </tr>
+            {% for p in ofertas %}
+            <tr>
+                <td>{{ p[0] }}</td>
+                <td>{{ p[1] }}</td>
+                <td>${{ "{:,.0f}".format(p[2]) }}</td>
+                <td>{{ p[3] }}%</td>
+                <td class="precio-final">${{ "{:,.0f}".format(p[4]) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No hay productos en oferta en este momento.</p>
+        {% endif %}
+    </div>
+
+    <footer>
+        <p>Desarrollado en Flask + MySQL | Proyecto de Tienda Web</p>
+    </footer>
+
 </body>
 </html>

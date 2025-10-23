@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Cambiar Categoría</title>
+</head>
+<body>
+    <h2>Cambiar categoría del producto: {{ producto[1] }}</h2>
+
+    <form action="/producto/{{ producto[0] }}/editar_categoria" method="POST">
+        <label>Nueva Categoría:</label><br>
+        <select name="id_categoria" required>
+            {% for c in categorias %}
+                <option value="{{ c[0] }}" {% if c[0] == producto[2] %}selected{% endif %}>
+                    {{ c[1] }}
+                </option>
+            {% endfor %}
+        </select><br><br>
+
+        <button type="submit">Guardar Cambios</button>
+    </form>
+
+    <br>
+    <a href="/productos">⬅ Volver a Productos</a>
+</body>
+</html>

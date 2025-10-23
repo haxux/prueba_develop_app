@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+    </style>
+</head>
+<body>
+    <h1>Productos de la categoría: {{ categoria }}</h1>
+    <h2>Lista de Productos</h2>
+    <table id="productosTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>IVA</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Los productos se agregarán aquí -->
+        </tbody>
+    </table>
+
+    <script>
+        // URL de tu API
+        const categoria = "{{ categoria }}"
+        const apiUrl =  `http://127.0.0.1:5000/categoria/${categoria}`; // Cambia por la URL real
+
+        async function cargarProductos() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                
+                const tabla = document.querySelector("#productosTable tbody");
+                tabla.innerHTML = ""; // Limpiar tabla
+
+                data.productos.forEach(producto => {
+                    const fila = document.createElement("tr");
+                    fila.innerHTML = `
+                        <td>${producto[0]}</td>
+                        <td>${producto[1]}</td>
+                        <td>${producto[2]}</td>
+                        <td>${producto[3]}</td>
+                        <td>${producto[4]}</td>
+                        <td>${producto[5]}</td>
+                    `;
+                    tabla.appendChild(fila);
+                });
+            } catch (error) {
+                console.error("Error al cargar productos:", error);
+            }
+        }
+
+        // Cargar productos al abrir la página
+        cargarProductos();
+    </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito / Compras</title>
+</head>
+<body>
+    <head>Carrito de Compras 🛒</h2>
+    <p>Seleccione los productos que desea agregar al carrito.</p>
+
+    <table border="1" align="center" cellpadding="8">
+        <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>IVA</th>
+            <th>Acción</th>
+        </tr>
+        {% for p in productos %}
+        <tr>
+            <td>{{ p[0] }}</td>
+            <td>{{ p[1] }}</td>
+            <td>${{ p[2] }}</td>
+            <td>{{ p[3] }}%</td>
+            <td><button>Agregar al carrito</button></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <a href="/home">⬅ Volver al Home</a>
+</body>
+</html>

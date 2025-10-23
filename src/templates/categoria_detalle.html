@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Productos de {{ categoria.nombre }}</title>
+</head>
+<body>
+    <h2>Productos en la categoría: {{ categoria.nombre }}</h2>
+
+    {% if productos %}
+        <table border="1" cellpadding="8" cellspacing="0">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>IVA</th>
+            </tr>
+
+            {% for p in productos %}
+            <tr>
+                <td>{{ p.id_producto }}</td>
+                <td>{{ p.nombre }}</td>
+                <td>{{ p.descripcion }}</td>
+                <td>${{ p.precio_unitario }}</td>
+                <td>{{ p.iva }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No hay productos en esta categoría.</p>
+    {% endif %}
+
+    <br>
+    <a href="/categorias">⬅ Volver a Categorías</a>
+</body>
+</html>

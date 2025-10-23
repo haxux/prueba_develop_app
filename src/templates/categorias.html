@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Categorías</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; text-align: center; padding: 20px; }
+        h2 { color: #007bff; }
+        table { margin: 20px auto; border-collapse: collapse; width: 70%; background: white; }
+        th, td { border: 1px solid #ddd; padding: 10px; }
+        th { background: #007bff; color: white; }
+        tr:hover { background: #eef; }
+        a { text-decoration: none; color: white; padding: 6px 10px; border-radius: 4px; }
+        .ver { background-color: #28a745; }
+        .volver { background-color: #6c757d; margin-top: 15px; display: inline-block; }
+    </style>
+</head>
+<body>
+
+    <h2>🏷️ Categorías de Productos</h2>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acción</th>
+        </tr>
+        {% for c in categorias %}
+        <tr>
+            <td>{{ c[0] }}</td>
+            <td>{{ c[1] }}</td>
+            <td><a href="/productosCategoria/{{ c[0] }}" class="ver">👀 Ver productos</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <a href="{{ url_for('home') }}" class="volver">⬅ Volver al inicio</a>
+
+</body>
+</html>

@@ -2,41 +2,73 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Login API</title>
+    <title>Iniciar Sesión</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            padding-top: 80px;
+        }
+        form {
+            background-color: white;
+            display: inline-block;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        }
+        input {
+            margin: 8px;
+            padding: 8px;
+            width: 200px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #resultado {
+            margin-top: 15px;
+            color: red;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
+    <h2>🔐 Iniciar Sesión</h2>
     <form id="loginForm">
-        <label>Usuario:</label><br>
-        <input type="text" id="username" value="cliente_prueba" required><br><br>
-        <label>Contraseña:</label><br>
-        <input type="password" id="password" value="1234" required><br><br>
+        <input type="text" id="username" placeholder="Usuario" required><br>
+        <input type="password" id="password" placeholder="Contraseña" required><br>
         <button type="submit">Ingresar</button>
     </form>
 
     <p id="resultado"></p>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e){
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
-
             const url = `http://127.0.0.1:5000/login/${username}/${password}`;
-            
+
             try {
                 const response = await fetch(url);
-                const text = await response.text();  
+                const text = await response.text();
 
-                if(text === "True"){
-                    window.location.href = "/home";
+                if (text === 'valido') {
+                    window.location.href = '/home'; // Redirige si es válido
                 } else {
-                    document.getElementById('resultado').innerText = "❌ Usuario o contraseña incorrectos";
+                    document.getElementById('resultado').innerText = '❌ Usuario o contraseña incorrectos';
                 }
-            } catch(err){
+            } catch (err) {
                 console.error(err);
-                document.getElementById('resultado').innerText = "⚠️ Error al conectar con la API";
+                document.getElementById('resultado').innerText = '⚠️ Error al conectar con el servidor';
             }
         });
     </script>
